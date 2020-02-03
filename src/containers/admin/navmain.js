@@ -5,7 +5,7 @@ class NavMain extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            
+
         };
     }
     componentDidMount() {
@@ -26,7 +26,11 @@ class NavMain extends React.Component {
                                     <span className="text-white">Kategori</span>
                                 </DropdownToggle>
                                 <DropdownMenu className="dd-animate dd-arrow">
-                                    <span>Kategori</span>
+                                    <DropdownItem header>Header</DropdownItem>
+                                    <DropdownItem divider />
+                                    <DropdownItem>Foo Action</DropdownItem>
+                                    <DropdownItem>Bar Action</DropdownItem>
+                                    <DropdownItem>Quo Action</DropdownItem>
                                 </DropdownMenu>
                             </UncontrolledButtonDropdown>
                             <input type="search" className="form-control" id="searchNav" placeholder="Search..." />
@@ -43,18 +47,6 @@ class NavMain extends React.Component {
                                 <DropdownToggle nav className="py-0 tip tipL ddRoute" aria-label="Develop only">
                                     <b className="badge badge-danger">DEV</b>
                                 </DropdownToggle>
-                                <DropdownMenu className="dd-animate">
-                                    <div className="row DEV_MENUS">
-                                        <div className="col">
-                                            {/* {(ARI_LINKS && ARI_LINKS.length > 0) &&
-                                                <React.Fragment>
-                                                    <h6 className="dropdown-header">Ari ({ARI_LINKS.length})</h6>
-                                                    {ARI_LINKS.map((v, i) => <A key={i} dom href={v.path} aClass="dropdown-item">{i + 1}. {v.txt}</A>)}
-                                                </React.Fragment>
-                                            } */}
-                                        </div>
-                                    </div>
-                                </DropdownMenu>
                             </UncontrolledDropdown>
 
                             <NavItem>
