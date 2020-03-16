@@ -1,94 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 // import axios from 'axios';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, CustomInput, UncontrolledDropdown, UncontrolledButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-class NavMain extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
+import animateScrollTo from 'animated-scroll-to';
 
-        };
-    }
-    componentDidMount() {
-    }
-    render() {
-        return (
-            <React.Fragment>
-                <Navbar color="info" light expand="md" className="py-1" id="navMain">
-                    <NavbarBrand href="/">
-                        <img className="d-inline-block" height="30" alt="Logo" src="./logo192.png" />
-                    </NavbarBrand>
-                    <NavbarToggler />
-
-                    <form className="form-inline form-search-navmain" noValidate>
-                        <div className="input-group input-group-sm w-100">
-                            <UncontrolledButtonDropdown addonType="prepend" inNavbar>
-                                <DropdownToggle caret color="fff" className="border" style={{ width: 92 }}>
-                                    <span className="text-white">Kategori</span>
-                                </DropdownToggle>
-                                <DropdownMenu className="dd-animate dd-arrow">
-                                    <DropdownItem header>Header</DropdownItem>
-                                    <DropdownItem divider />
-                                    <DropdownItem>Foo Action</DropdownItem>
-                                    <DropdownItem>Bar Action</DropdownItem>
-                                    <DropdownItem>Quo Action</DropdownItem>
-                                </DropdownMenu>
-                            </UncontrolledButtonDropdown>
-                            <input type="search" className="form-control" id="searchNav" placeholder="Search..." />
-                            <div className="input-group-append">
-                                <label htmlFor="searchNav" className="btn btn-light bg-white fas fa-search" />
-                            </div>
-                        </div>
-                    </form>
-
-                    <Collapse isOpen={false} navbar>
-                        <Nav className="align-items-center ml-auto" navbar>
-                        <CustomInput type="switch" id="devMenu" name="devMenu" label={`${true ? 'Admin' : 'User'} Menu`} defaultChecked={true} />
-                            <UncontrolledDropdown nav inNavbar className="dd-full">
-                                <DropdownToggle nav className="py-0 tip tipL ddRoute" aria-label="Develop only">
-                                    <b className="badge badge-danger">DEV</b>
-                                </DropdownToggle>
-                            </UncontrolledDropdown>
-
-                            <NavItem>
-                                <NavLink href="/" className="ion ion-md-pie" />
-                            </NavItem>
-
-                            <UncontrolledDropdown nav inNavbar className="dd-full">
-                                <DropdownMenu className="dd-animate">
-                                    <DropdownItem>Option 1</DropdownItem>
-                                    <DropdownItem>Reset</DropdownItem>
-                                </DropdownMenu>
-                            </UncontrolledDropdown>
-
-                            <NavItem>
-                                <NavLink className="ion ion-ios-notifications-outline scale12" href="/" />
-                            </NavItem>
-
-                            <NavItem>
-                                <NavLink className="ion ion-md-paper" href="/" />
-                            </NavItem>
-
-                            <NavItem>
-                                <NavLink className="ion ion-ios-settings" href="/"></NavLink>
-                            </NavItem>
-
-                            <UncontrolledDropdown nav inNavbar>
-                                <DropdownMenu right className="dd-animate dd-arrow arrow-r mw-300">
-                                    <div className="text-center py-1 px-3">
-                                        <h5 className="mt-3">Bill Gates <br /><small>Programmer</small></h5>
-                                        <h5>PT. Microsoft Indonesia</h5>
-                                    </div>
-                                    <hr className="my-1" />
-                                    <DropdownItem className="ion ion-md-contact scale12"> Profile</DropdownItem>
-                                    <DropdownItem className="ion ion-md-log-out scale12 border-top"> Logout</DropdownItem>
-                                </DropdownMenu>
-                            </UncontrolledDropdown>
-                        </Nav>
-                    </Collapse>
-                </Navbar>
-            </React.Fragment>
-        );
-    }
+const EasingFunctions = {
+    linear: (t) => { return t },
+    easeInQuad: (t) => { return t * t },
+    easeOutQuad: (t) => { return t * (2 - t) },
+    easeInOutQuad: (t) => { return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t },
+    easeInCubic: (t) => { return t * t * t },
+    easeOutCubic: (t) => { return (--t) * t * t + 1 },
+    easeInOutCubic: (t) => { return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1 },
+    easeInQuart: (t) => { return t * t * t * t },
+    easeOutQuart: (t) => { return 1 - (--t) * t * t * t },
+    easeInOutQuart: (t) => { return t < 0.5 ? 8 * t * t * t * t : 1 - 8 * (--t) * t * t * t },
+    easeInQuint: (t) => { return t * t * t * t * t },
+    easeOutQuint: (t) => { return 1 + (--t) * t * t * t * t },
+    easeInOutQuint: (t) => { return t < 0.5 ? 16 * t * t * t * t * t : 1 + 16 * (--t) * t * t * t * t }
+}
+const options = {
+    easing: EasingFunctions.easeInOutCubic,
+    speed: 1000,
+    cancelOnUserAction: false
+}
+const NavMain = (props) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const toggle = () => setIsOpen(!isOpen);
+    return (
+        <React.Fragment>
+            <Navbar light expand="md" className="py-1 bs-1 navSticky" id="navMain">
+                <NavbarBrand href="/">
+                    <img className="d-inline-block" height="30" alt="Logo" src="./logo192.png" />
+                </NavbarBrand>
+                <NavbarToggler onClick={toggle} />
+                <Collapse isOpen={isOpen} navbar>
+                    <Nav className="mr-auto align-items-center" navbar>
+                        <NavItem>
+                            <NavLink href="#" onClick={() => animateScrollTo(document.querySelector(".bg1"), options)}>Home</NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink href="#" onClick={() => animateScrollTo(document.querySelector(".bg2"), options)}>What we do</NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink href="#" onClick={() => animateScrollTo(document.querySelector(".bg3"), options)}>Portofolio</NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink href="#" onClick={() => animateScrollTo(document.querySelector(".bg4"), options)}>Contact Us</NavLink>
+                        </NavItem>
+                    </Nav>
+                </Collapse>
+                {/* <NavbarToggler /> */}
+            </Navbar>
+        </React.Fragment>
+    );
 }
 
 export default NavMain;
